@@ -6,6 +6,14 @@ import mediapipe as mp
 import math
 import json
 import os
+import sys
+
+''' Create a venv first and install dependencies '''
+
+# Add lerobot source to path
+LEROBOT_SRC_PATH = "/Users/chris/Library/CloudStorage/OneDrive-Personal/Grad/research/robots/so-arm101/lerobot/src"
+if os.path.exists(LEROBOT_SRC_PATH) and LEROBOT_SRC_PATH not in sys.path:
+    sys.path.insert(0, LEROBOT_SRC_PATH)
 
 # Try to import the LeKiwi client from the `lerobot` package. If the package
 # isn't available in PYTHONPATH, the script will still run and only print
@@ -15,12 +23,17 @@ try:
 
     HAS_LEKIWI = True
 except Exception:
+    print("No robot")
     LeKiwiClient = None
     LeKiwiClientConfig = None
     HAS_LEKIWI = False
 # use the media pipe to teleoperate the robot when using a camera. Not really from the robot itself, but a farmer using a camera to control the robot remotely. This needs the hand tracking to work well with the range of motion of the follower arms.
 
-# TODO: Integrate this with motor controls to send commands to the robot based on recognized gestures.
+'''
+TODO: Integrate this with motor controls to send commands to the robot based on recognized gestures.
+    Use YoLov7 and open pose to compare qualitative performance.
+'''
+
 
 # define constants
 CAMERA_INDEX = 0  # 0 = default MacBook webcam
@@ -214,7 +227,7 @@ def main():
                     return {"x.vel": slow, "y.vel": 0.0, "theta.vel": 0.0}
                 if label == "STOP":
                     return {"x.vel": 0.0, "y.vel": 0.0, "theta.vel": 0.0}
-                if label == "SPIN":
+                if label == "SPIN":     
                     return {"x.vel": 0.0, "y.vel": 0.0, "theta.vel": spin}
                 if label == "LEFT":
                     return {"x.vel": 0.0, "y.vel": 0.0, "theta.vel": 60.0}

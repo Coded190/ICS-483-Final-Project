@@ -1,0 +1,12 @@
+name: compvis
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - opencv
+  - ultralytics
+  - pytorch
+  - torchvision
+  - pip
+  - pip:
+      - mediapipe
